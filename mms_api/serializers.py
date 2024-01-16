@@ -1,0 +1,65 @@
+from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+from django.conf import settings
+from .models import Container, Company, Deposit, Withdraw
+
+from core.serializers import CustomUserSerializer
+
+
+class ContainerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Container
+        fields = ('id', 'name', 'total_dinar', 'total_dollar', 'created_at', 'created_by')
+
+
+class CompanySerializer(serializers.ModelSerializer):
+    container = ContainerSerializer()
+
+    class Meta:
+        model = Company
+        fields = ['id', 'title', 'container', 'total_dinar',
+                  'total_dollar', 'created_by', 'created_at', 'created_by']
+
+
+class CompanyCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ['title', 'container', 'total_dinar', 'total_dollar', 'created_by']
+
+
+class DepositSerializer(serializers.ModelSerializer):
+    company_name = CompanySerializer()
+    container = ContainerSerializer()
+
+    class Meta:
+        model = Deposit
+        fields = ['invoice_id','container', 'company_name', 'price_in_dollar',
+                  'price_in_dinar', 'description',
+                  'received_from', 'created_at']
+
+
+class DepositCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Deposit
+        fields = ['invoice_id', 'container', 'company_name', 'price_in_dollar',
+                  'price_in_dinar', 'description',
+                  'received_from', 'created_at', 'created_by']
+
+
+class WithdrawSerializer(serializers.ModelSerializer):
+    company_name = CompanySerializer()
+    container = ContainerSerializer()
+
+    class Meta:
+        model = Withdraw
+        fields = ['invoice_id', 'container', 'company_name', 'price_in_dollar',
+                  'price_in_dinar', 'description',
+                  'out_to', 'mr', 'created_at']
+
+
+class WithdrawCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Withdraw
+        fields = ['container', 'company_name', 'price_in_dollar',
+                  'price_in_dinar', 'description',
+                  'out_to', 'mr', 'created_at', 'created_by']
