@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (Deposit, Withdraw,
+from .models import (Deposit, Withdraw, WithdrawType,
                      Company, Container)
 
 
@@ -29,13 +29,17 @@ class DepositAdmin(admin.ModelAdmin):
 
 @admin.register(Withdraw)
 class WithdrawAdmin(admin.ModelAdmin):
-    list_display = ['id', 'invoice_id',
-                    'container', 'company_name', 'mr',
+    list_display = ['id', 'invoice_id','withdraw_type',
+                    'container', 'company_name',
                     'price_in_dinar', 'price_in_dollar',
                     'description', 'out_to',
                     'created_at', 'created_by']
 
-#
+
+@admin.register(WithdrawType)
+class WithdrawTypeAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title']
+
 # @admin.register(LogEntry)
 # class LogEntryAdmin(admin.ModelAdmin):
 #     list_display = ['timestamp', 'user',

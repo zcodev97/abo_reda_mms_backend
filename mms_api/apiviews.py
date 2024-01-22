@@ -1,12 +1,14 @@
+from django.utils.dateparse import parse_date
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, status
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
-from .models import Container, Company, Deposit, Withdraw
+from .models import Container, Company, Deposit, Withdraw, WithdrawType
 from .serializers import (ContainerSerializer,
-                          CompanySerializer,CompanyCreateSerializer,
-                          DepositSerializer,DepositCreateSerializer, WithdrawSerializer,WithdrawCreateSerializer)
+                          CompanySerializer, CompanyCreateSerializer,
+                          DepositSerializer, DepositCreateSerializer,
+                          WithdrawSerializer, WithdrawCreateSerializer, WithdrawTypeSerializer)
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.conf import settings
@@ -23,6 +25,7 @@ class CompaniesListAPI(generics.ListAPIView):
     serializer_class = CompanySerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
+
 class CompanyCreateAPI(generics.CreateAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanyCreateSerializer
@@ -34,20 +37,68 @@ class DepositAPI(generics.ListCreateAPIView):
     serializer_class = DepositSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
+
 class DepositCreateAPI(generics.CreateAPIView):
     queryset = Deposit.objects.all()
     serializer_class = DepositCreateSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
 
 class WithdrawAPI(generics.ListCreateAPIView):
     queryset = Withdraw.objects.all()
     serializer_class = WithdrawSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
+
+class WithdrawTypeAPI(generics.ListCreateAPIView):
+    queryset = WithdrawType.objects.all()
+    serializer_class = WithdrawTypeSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
+class CreateWithdrawTypeAPI(generics.CreateAPIView):
+    queryset = WithdrawType.objects.all()
+    serializer_class = WithdrawTypeSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
 class WithdrawCreateAPI(generics.CreateAPIView):
     queryset = Withdraw.objects.all()
     serializer_class = WithdrawCreateSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+
+class WithdrawsReportAPI(generics.ListCreateAPIView):
+    serializer_class = WithdrawSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        queryset = Withdraw.objects.all()
+        date_from = self.request.query_params.get('date_from')
+        date_to = self.request.query_params.get('date_to')
+        if date_from and date_to:
+            date_from = parse_date(date_from)
+            date_to = parse_date(date_to)
+            if date_from and date_to:
+                queryset = queryset.filter(created_at__range=[date_from, date_to])
+
+        return queryset
+
+class DepositsReportAPI(generics.ListCreateAPIView):
+    serializer_class = DepositSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        queryset = Deposit.objects.all()
+        date_from = self.request.query_params.get('date_from')
+        date_to = self.request.query_params.get('date_to')
+        if date_from and date_to:
+            date_from = parse_date(date_from)
+            date_to = parse_date(date_to)
+            if date_from and date_to:
+                queryset = queryset.filter(created_at__range=[date_from, date_to])
+
+        return queryset
 
 class ContainerDepositAPI(generics.ListCreateAPIView):
     serializer_class = DepositSerializer
@@ -83,7 +134,6 @@ class ContainerWithdrawsAPI(generics.ListCreateAPIView):
             # If no container_id is provided, return all deposits
             queryset = Withdraw.objects.all()
 
-
         return queryset
 
 
@@ -93,7 +143,7 @@ class CompanyDepositAPI(generics.ListCreateAPIView):
 
     def get_queryset(self):
         company_name_id = self.kwargs['pk']
-        print( self.request)
+        print(self.request)
         if company_name_id:
             # If container_id is provided, filter deposits for that specific container
             queryset = Deposit.objects.filter(company_name_id=company_name_id)

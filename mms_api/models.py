@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 class Container(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255,unique=True)
+    name = models.CharField(max_length=255, unique=True)
     total_dinar = models.FloatField()
     total_dollar = models.FloatField()
     created_at = models.DateTimeField(auto_now=True)
@@ -20,13 +20,20 @@ class Container(models.Model):
 
 class Company(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=255,unique=True)
+    title = models.CharField(max_length=255, unique=True)
     container = models.ForeignKey(Container, on_delete=models.CASCADE)
     total_dinar = models.FloatField()
     total_dollar = models.FloatField()
     created_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.title
+
+
+class WithdrawType(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=255)
 
     def __str__(self):
         return self.title
@@ -71,9 +78,13 @@ class Deposit(models.Model):
             super().save(*args, **kwargs)
 
 
+# f80c3f49-52d3-4cdd-8259-ddc7b5130966
+
+
 class Withdraw(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     invoice_id = models.CharField(max_length=10, unique=True, editable=False)
+    withdraw_type = models.ForeignKey(WithdrawType, on_delete=models.PROTECT)
     container = models.ForeignKey(Container, on_delete=models.CASCADE)
     company_name = models.ForeignKey(Company, on_delete=models.CASCADE)
     mr = models.CharField(max_length=255)
@@ -82,7 +93,8 @@ class Withdraw(models.Model):
     description = models.TextField(max_length=2000)
     out_to = models.CharField(max_length=255)
     created_at = models.DateTimeField()
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_by_withdrawer')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                   related_name='created_by_withdrawer')
 
     def __str__(self):
         return self.invoice_id
