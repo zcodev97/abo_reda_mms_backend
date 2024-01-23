@@ -52,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'mms_api.middleware.LoggingMiddleware',
+
 ]
 
 ROOT_URLCONF = 'mms.urls'
@@ -83,6 +85,18 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'mms',
+#         'USER': 'postgres',
+#         'PASSWORD': 'zakria',
+#         'HOST': 'localhost',  # Set to the address of your database
+#         'PORT': '5432',  # The default port PostgreSQL listens on
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

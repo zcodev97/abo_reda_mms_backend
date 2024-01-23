@@ -1,9 +1,14 @@
 from django.contrib import admin
 from .models import (Deposit, Withdraw, WithdrawType,
-                     Company, Container)
+                     Company, Container, EndpointLog)
 
 
 # Register your models here.
+
+
+@admin.register(EndpointLog)
+class EndpointLogAdmin(admin.ModelAdmin):
+    list_display = ['user', 'path', 'method', 'action','status_code', 'timestamp']
 
 
 @admin.register(Company)
@@ -29,7 +34,7 @@ class DepositAdmin(admin.ModelAdmin):
 
 @admin.register(Withdraw)
 class WithdrawAdmin(admin.ModelAdmin):
-    list_display = ['id', 'invoice_id','withdraw_type',
+    list_display = ['id', 'invoice_id', 'withdraw_type',
                     'container', 'company_name',
                     'price_in_dinar', 'price_in_dollar',
                     'description', 'out_to',
