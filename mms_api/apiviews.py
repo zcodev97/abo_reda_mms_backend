@@ -84,6 +84,7 @@ class WithdrawsReportAPI(generics.ListCreateAPIView):
 
         return queryset
 
+
 class DepositsReportAPI(generics.ListCreateAPIView):
     serializer_class = DepositSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
@@ -100,6 +101,7 @@ class DepositsReportAPI(generics.ListCreateAPIView):
 
         return queryset
 
+
 class ContainerDepositAPI(generics.ListCreateAPIView):
     serializer_class = DepositSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
@@ -108,7 +110,6 @@ class ContainerDepositAPI(generics.ListCreateAPIView):
         # Assuming you get the container_id from the request's query parameters
 
         container_id = self.kwargs['pk']
-        print(container_id)
         if container_id:
             # If container_id is provided, filter deposits for that specific container
             queryset = Deposit.objects.filter(container__id=container_id)
@@ -130,6 +131,7 @@ class ContainerWithdrawsAPI(generics.ListCreateAPIView):
         if container_id:
             # If container_id is provided, filter deposits for that specific container
             queryset = Withdraw.objects.filter(container__id=container_id)
+
         else:
             # If no container_id is provided, return all deposits
             queryset = Withdraw.objects.all()
@@ -143,7 +145,7 @@ class CompanyDepositAPI(generics.ListCreateAPIView):
 
     def get_queryset(self):
         company_name_id = self.kwargs['pk']
-        print(self.request)
+
         if company_name_id:
             # If container_id is provided, filter deposits for that specific container
             queryset = Deposit.objects.filter(company_name_id=company_name_id)

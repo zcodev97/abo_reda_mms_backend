@@ -77,6 +77,19 @@ class Deposit(models.Model):
 
             super().save(*args, **kwargs)
 
+    def delete(self, using=None, keep_parents=False):
+        with transaction.atomic():
+            if self.container:
+                self.container.total_dinar -= self.price_in_dinar
+                self.container.total_dollar -= self.price_in_dollar
+                self.company_name.total_dinar -= self.price_in_dinar
+                self.company_name.total_dollar -= self.price_in_dollar
+
+                # Save the updated Container
+                self.container.save()
+                self.company_name.save()
+            super().delete(using=using, keep_parents=keep_parents)
+
 
 # f80c3f49-52d3-4cdd-8259-ddc7b5130966
 
@@ -120,6 +133,19 @@ class Withdraw(models.Model):
                 self.company_name.save()
 
             super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        with transaction.atomic():
+            if self.container:
+                self.container.total_dinar += self.price_in_dinar
+                self.container.total_dollar += self.price_in_dollar
+                self.company_name.total_dinar += self.price_in_dinar
+                self.company_name.total_dollar += self.price_in_dollar
+
+                # Save the updated Container
+                self.container.save()
+                self.company_name.save()
+            super().delete(using=using, keep_parents=keep_parents)
 
 
 class EndpointLog(models.Model):
