@@ -19,13 +19,22 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(Container)
 class ContainerAdmin(admin.ModelAdmin):
+    list_per_page = 5  # Items per page
+    ordering = ('-created_at',)  # Default ordering
+    search_fields = ['name'] # Fields to search by
     list_display = ['id', 'name', 'total_dinar', 'total_dollar',
                     'created_at', 'created_by']
 
 
 @admin.register(Deposit)
 class DepositAdmin(admin.ModelAdmin):
-    list_display = ['id', 'invoice_id',
+    # list_filter = ('container', 'company_name','description','received_from')  # Fields to filter by in the sidebar
+    list_per_page = 5  # Items per page
+    ordering = ('-created_at',)  # Default ordering
+    search_fields = ('container__name', 'company_name__title','description','received_from') # Fields to search by
+
+    list_display = [
+        # 'id', 'invoice_id',
                     'container', 'company_name',
                     'price_in_dinar', 'price_in_dollar',
                     'description', 'received_from',
@@ -34,6 +43,10 @@ class DepositAdmin(admin.ModelAdmin):
 
 @admin.register(Withdraw)
 class WithdrawAdmin(admin.ModelAdmin):
+    list_per_page = 5  # Items per page
+    ordering = ('-created_at',)  # Default ordering
+    search_fields = ( 'withdraw_type__title',
+                    'container__name', 'company_name__title','description','out_to') # Fields to search by
     list_display = ['id', 'invoice_id', 'withdraw_type',
                     'container', 'company_name',
                     'price_in_dinar', 'price_in_dollar',
@@ -43,6 +56,8 @@ class WithdrawAdmin(admin.ModelAdmin):
 
 @admin.register(WithdrawType)
 class WithdrawTypeAdmin(admin.ModelAdmin):
+    list_per_page = 5  # Items per page
+    search_fields = ['title'] # Fields to search by
     list_display = ['id', 'title']
 
 # @admin.register(LogEntry)

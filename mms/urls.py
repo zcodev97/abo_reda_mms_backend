@@ -32,7 +32,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
-
+# Admin Site Config
+admin.sites.AdminSite.site_header = 'حساباتي'
+admin.sites.AdminSite.site_title = 'حساباتي'
+admin.sites.AdminSite.index_title = 'حساباتي'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
