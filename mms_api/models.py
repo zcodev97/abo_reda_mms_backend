@@ -135,6 +135,7 @@ class Withdraw(models.Model):
             super().save(*args, **kwargs)
 
     def delete(self, using=None, keep_parents=False):
+        print('testttt')
         with transaction.atomic():
             if self.container:
                 self.container.total_dinar += self.price_in_dinar
