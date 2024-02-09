@@ -1,14 +1,14 @@
 from django.contrib import admin
 from .models import (Deposit, Withdraw, WithdrawType,
-                     Company, Container, EndpointLog)
+                     Company, Container)
 
 
 # Register your models here.
 
 
-@admin.register(EndpointLog)
-class EndpointLogAdmin(admin.ModelAdmin):
-    list_display = ['user', 'path', 'method', 'action','status_code', 'timestamp']
+# @admin.register(EndpointLog)
+# class EndpointLogAdmin(admin.ModelAdmin):
+#     list_display = ['user', 'path', 'method', 'action','status_code', 'timestamp']
 
 
 @admin.register(Company)

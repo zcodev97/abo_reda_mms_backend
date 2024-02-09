@@ -148,18 +148,18 @@ class Withdraw(models.Model):
             super().delete(using=using, keep_parents=keep_parents)
 
 
-class EndpointLog(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.SET_NULL,
-                             null=True, blank=True, related_name="log_user")
-    path = models.CharField(max_length=200)
-    action = models.CharField(max_length=50, blank=True, null=True)  # New field for action
-    method = models.CharField(max_length=10)
-    status_code = models.IntegerField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.method} {self.path} {self.status_code}"
+# class EndpointLog(models.Model):
+#     user = models.ForeignKey(settings.AUTH_USER_MODEL,
+#                              on_delete=models.SET_NULL,
+#                              null=True, blank=True, related_name="log_user")
+#     path = models.CharField(max_length=200)
+#     action = models.CharField(max_length=50, blank=True, null=True)  # New field for action
+#     method = models.CharField(max_length=10)
+#     status_code = models.IntegerField()
+#     timestamp = models.DateTimeField(auto_now_add=True)
+#
+#     def __str__(self):
+#         return f"{self.method} {self.path} {self.status_code}"
 
 # class LogEntry(models.Model):
 #     timestamp = models.DateTimeField(auto_now_add=True)
