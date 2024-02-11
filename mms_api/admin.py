@@ -39,10 +39,20 @@ class CompanyAdmin(admin.ModelAdmin):
 class ContainerAdmin(admin.ModelAdmin):
 
 
+    def formatted_total_price_dinar(self, obj):
+        return format_html(f"IQD {obj.total_dinar:,.0f}")
+    def formatted_total_price_dollar(self, obj):
+        return format_html(f"$ {obj.total_dollar:,.0f}")
+
+    formatted_total_price_dinar.short_description = 'Total Dinar'  # Sets the column header
+
+    formatted_total_price_dollar.short_description = 'Total Dollar'  # Sets the column header
+
+
     list_per_page = 5  # Items per page
     ordering = ('-created_at',)  # Default ordering
     search_fields = ['name'] # Fields to search by
-    list_display = [ 'name', 'total_dinar', 'total_dollar',
+    list_display = [ 'name', 'formatted_total_price_dinar', 'formatted_total_price_dollar',
                     'created_at', 'created_by']
 
     def get_actions(self, request):
@@ -60,10 +70,20 @@ class DepositAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)  # Default ordering
     search_fields = ('container__name', 'company_name__title','description','received_from') # Fields to search by
 
+
+    def formatted_price_dinar(self, obj):
+        return format_html(f"IQD {obj.price_in_dinar:,.0f}")
+    def formatted_price_dollar(self, obj):
+        return format_html(f"$ {obj.price_in_dollar:,.0f}")
+
+    formatted_price_dinar.short_description = 'Total Dinar'  # Sets the column header
+
+    formatted_price_dollar.short_description = 'Total Dollar'  # Sets the column header
+
     list_display = [
         # 'id', 'invoice_id',
                     'container', 'company_name',
-                    'price_in_dinar', 'price_in_dollar',
+                    'formatted_price_dinar', 'formatted_price_dollar',
                     'description', 'received_from',
                     'created_at', 'created_by']
 
@@ -77,13 +97,25 @@ class DepositAdmin(admin.ModelAdmin):
 
 @admin.register(Withdraw)
 class WithdrawAdmin(admin.ModelAdmin):
+
+    def formatted_price_dinar(self, obj):
+        return format_html(f"IQD {obj.price_in_dinar:,.0f}")
+    def formatted_price_dollar(self, obj):
+        return format_html(f"$ {obj.price_in_dollar:,.0f}")
+
+    formatted_price_dinar.short_description = 'Total Dinar'  # Sets the column header
+
+    formatted_price_dollar.short_description = 'Total Dollar'  # Sets the column header
+
+
+
     list_per_page = 5  # Items per page
     ordering = ('-created_at',)  # Default ordering
     search_fields = ( 'withdraw_type__title',
                     'container__name', 'company_name__title','description','out_to') # Fields to search by
     list_display = [ 'invoice_id', 'withdraw_type',
                     'container', 'company_name',
-                    'price_in_dinar', 'price_in_dollar',
+                    'formatted_price_dinar', 'formatted_price_dollar',
                     'description', 'out_to',
                     'created_at', 'created_by']
 
