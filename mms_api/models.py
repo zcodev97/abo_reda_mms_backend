@@ -17,6 +17,9 @@ class Container(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'القاصات'
+
 
 class Company(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -30,6 +33,9 @@ class Company(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name_plural = 'الشركات'
+
 
 class WithdrawType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -37,6 +43,9 @@ class WithdrawType(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = 'القيود'
 
 
 class Deposit(models.Model):
@@ -53,6 +62,9 @@ class Deposit(models.Model):
 
     def __str__(self):
         return self.invoice_id
+
+    class Meta:
+        verbose_name_plural = 'الصرفيات'
 
     def generate_invoice_id(self):
         # Customize the prefix or length as needed
@@ -111,6 +123,9 @@ class Withdraw(models.Model):
 
     def __str__(self):
         return self.invoice_id
+
+    class Meta:
+        verbose_name_plural = 'الايداعات'
 
     def generate_invoice_id(self):
         # Customize the prefix or length as needed
