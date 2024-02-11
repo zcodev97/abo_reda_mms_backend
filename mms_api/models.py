@@ -64,7 +64,7 @@ class Deposit(models.Model):
         return self.invoice_id
 
     class Meta:
-        verbose_name_plural = 'الصرفيات'
+        verbose_name_plural = 'الايداعات'
 
     def generate_invoice_id(self):
         # Customize the prefix or length as needed
@@ -112,7 +112,7 @@ class Withdraw(models.Model):
     withdraw_type = models.ForeignKey(WithdrawType, on_delete=models.PROTECT)
     container = models.ForeignKey(Container, on_delete=models.CASCADE)
     company_name = models.ForeignKey(Company, on_delete=models.CASCADE)
-    mr = models.CharField(max_length=255)
+    # mr = models.CharField(max_length=255)
     price_in_dinar = models.FloatField()
     price_in_dollar = models.FloatField()
     description = models.TextField(max_length=2000)
@@ -125,7 +125,7 @@ class Withdraw(models.Model):
         return self.invoice_id
 
     class Meta:
-        verbose_name_plural = 'الايداعات'
+        verbose_name_plural = 'الصرفيات'
 
     def generate_invoice_id(self):
         # Customize the prefix or length as needed
