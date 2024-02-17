@@ -117,6 +117,7 @@ class WithdrawAdmin(admin.ModelAdmin):
                     'container__name', 'company_name__title','description','out_to') # Fields to search by
     list_display = [
         'invoice_id',
+        'document',
         'withdraw_number',
         'withdraw_type',
                     'container', 'company_name',

@@ -172,6 +172,7 @@ class Withdraw(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                                    related_name='created_by_withdrawer')
     withdraw_number = models.PositiveIntegerField(default=0, editable=False)  # New field
+    document = models.FileField(upload_to='withdraw_documents/', blank=True, null=True)
 
     def __str__(self):
         return self.invoice_id
