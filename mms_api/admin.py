@@ -24,7 +24,7 @@ class CompanyAdmin(admin.ModelAdmin):
     formatted_total_price_dollar.short_description = 'Total Dollar'  # Sets the column header
 
     list_display = [ 'title', 'container', 'formatted_total_price_dinar',
-                    'formatted_total_price_dollar', 'created_at', 'created_by']
+                    'formatted_total_price_dollar', 'supervisor', 'created_at', 'created_by']
 
     def get_actions(self, request):
         actions = super(CompanyAdmin,self).get_actions(request)
@@ -81,10 +81,12 @@ class DepositAdmin(admin.ModelAdmin):
     formatted_price_dollar.short_description = 'Total Dollar'  # Sets the column header
 
     list_display = [
-        # 'id', 'invoice_id',
+        # 'id',
+         'invoice_id',
+        'deposit_number',
                     'container', 'company_name',
                     'formatted_price_dinar', 'formatted_price_dollar',
-                    'description', 'received_from',
+                    'description', 'received_from','record_created_at',
                     'created_at', 'created_by']
 
     def get_actions(self, request):
@@ -113,10 +115,13 @@ class WithdrawAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)  # Default ordering
     search_fields = ( 'withdraw_type__title',
                     'container__name', 'company_name__title','description','out_to') # Fields to search by
-    list_display = [ 'invoice_id', 'withdraw_type',
+    list_display = [
+        'invoice_id',
+        'withdraw_number',
+        'withdraw_type',
                     'container', 'company_name',
                     'formatted_price_dinar', 'formatted_price_dollar',
-                    'description', 'out_to',
+                    'description', 'out_to','record_created_at',
                     'created_at', 'created_by']
 
     def get_actions(self, request):

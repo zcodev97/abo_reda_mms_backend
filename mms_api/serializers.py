@@ -23,14 +23,14 @@ class CompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ['id', 'title', 'container', 'total_dinar',
+        fields = ['id', 'title', 'container', 'total_dinar','supervisor',
                   'total_dollar', 'created_by', 'created_at', 'created_by']
 
 
 class CompanyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        fields = ['title', 'container', 'total_dinar', 'total_dollar', 'created_by']
+        fields = ['title', 'container','supervisor', 'total_dinar', 'total_dollar', 'created_by']
 
 
 class DepositSerializer(serializers.ModelSerializer):

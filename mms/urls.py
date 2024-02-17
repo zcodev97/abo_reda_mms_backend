@@ -12,6 +12,8 @@ from mms_api.apiviews import (ContainerAPI,
                               WithdrawCreateAPI,WithdrawsReportAPI,DepositsReportAPI,
                               WithdrawTypeAPI,CreateWithdrawTypeAPI)
 from core.serializers import CustomUserSerializer
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
 from rest_framework.authtoken import views
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -39,6 +41,11 @@ admin.sites.AdminSite.index_title = 'حساباتي'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # YOUR PATTERNS
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+  # Optional UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     # mms api
     path('containers/', ContainerAPI.as_view(), name="ContainerAPI"),
     path('companies/', CompaniesListAPI.as_view(), name="list companies"),
