@@ -61,7 +61,7 @@ class Deposit(models.Model):
     created_at = models.DateTimeField()
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_by_user')
     record_created_at = models.DateTimeField(auto_now=True)
-    deposit_number = models.PositiveIntegerField(default=0, editable=False)  # New field
+    deposit_number = models.PositiveIntegerField(blank=True,unique=True)   # New field
     document = models.FileField(upload_to='withdraw_documents/', blank=True, null=True)
 
     # @classmethod
@@ -155,9 +155,6 @@ class Deposit(models.Model):
             super().delete(using=using, keep_parents=keep_parents)
 
 
-# f80c3f49-52d3-4cdd-8259-ddc7b5130966
-
-
 class Withdraw(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     invoice_id = models.CharField(max_length=10, unique=True, editable=False)
@@ -172,7 +169,7 @@ class Withdraw(models.Model):
     record_created_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                                    related_name='created_by_withdrawer')
-    withdraw_number = models.PositiveIntegerField(default=0, editable=False)  # New field
+    withdraw_number = models.PositiveIntegerField(blank=True,unique=True)  # New field
     document = models.FileField(upload_to='withdraw_documents/', blank=True, null=True)
 
     def __str__(self):
@@ -222,22 +219,22 @@ class Withdraw(models.Model):
             else:
                 if old_price_in_dollar > self.price_in_dollar:
                     temp_price_dollar = old_price_in_dollar - self.price_in_dollar
-                    self.container.total_dollar -= temp_price_dollar
-                    self.company_name.total_dollar -= temp_price_dollar
-                elif old_price_in_dollar < self.price_in_dollar:
-                    temp_price_dollar = self.price_in_dollar - old_price_in_dollar
                     self.container.total_dollar += temp_price_dollar
                     self.company_name.total_dollar += temp_price_dollar
+                elif old_price_in_dollar < self.price_in_dollar:
+                    temp_price_dollar = self.price_in_dollar - old_price_in_dollar
+                    self.container.total_dollar -= temp_price_dollar
+                    self.company_name.total_dollar -= temp_price_dollar
 
                 if old_price_in_dinar > self.price_in_dinar:
                     temp_price_dinar = old_price_in_dinar - self.price_in_dinar
-                    self.container.total_dinar -= temp_price_dinar
-                    self.company_name.total_dinar -= temp_price_dinar
+                    self.container.total_dinar += temp_price_dinar
+                    self.company_name.total_dinar += temp_price_dinar
 
                 elif old_price_in_dinar < self.price_in_dinar:
                     temp_price_dinar = self.price_in_dinar - old_price_in_dinar
-                    self.container.total_dinar += temp_price_dinar
-                    self.company_name.total_dinar += temp_price_dinar
+                    self.container.total_dinar -= temp_price_dinar
+                    self.company_name.total_dinar -= temp_price_dinar
 
             # Save the updated data
             self.container.save()

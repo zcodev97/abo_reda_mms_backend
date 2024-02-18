@@ -39,7 +39,7 @@ class DepositSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Deposit
-        fields = ['invoice_id', 'container', 'company_name', 'price_in_dollar',
+        fields = ['invoice_id','deposit_number', 'container', 'company_name', 'price_in_dollar',
                   'price_in_dinar', 'description',
                   'received_from', 'created_at']
 
@@ -59,7 +59,7 @@ class WithdrawSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Withdraw
-        fields = ['invoice_id', 'container', 'company_name', 'price_in_dollar',
+        fields = ['invoice_id', 'withdraw_number', 'container', 'company_name', 'price_in_dollar',
                   'price_in_dinar', 'description',
                   'out_to', 'withdraw_type', 'created_at']
 
