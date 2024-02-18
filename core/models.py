@@ -11,6 +11,7 @@ class UserType(models.Model):
     def __str__(self):
         return self.title
 
+
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     user_type = models.ForeignKey(UserType, on_delete=models.DO_NOTHING)
