@@ -12,7 +12,9 @@ from mms_api.apiviews import (ContainerAPI,
                               CompanyWithdrawsAPI,
                               CompanyDepositAPI,
                               WithdrawCreateAPI,WithdrawsReportAPI,DepositsReportAPI,
-                              WithdrawTypeAPI,CreateWithdrawTypeAPI)
+                              WithdrawTypeAPI,CreateWithdrawTypeAPI,
+CompanySupervisorAPI
+                              )
 from core.serializers import CustomUserSerializer
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
@@ -65,6 +67,7 @@ urlpatterns = [
     path('container_withdraws/<uuid:pk>', ContainerWithdrawsAPI.as_view(), name="container withdraws"),
     path('company_deposits/<uuid:pk>', CompanyDepositAPI.as_view(), name="container deposits"),
     path('company_withdraws/<uuid:pk>', CompanyWithdrawsAPI.as_view(), name="container withdraws"),
+    path('company_supervisor/<int:pk>', CompanySupervisorAPI.as_view(), name="company supervisor"),
 
     # login
     path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),

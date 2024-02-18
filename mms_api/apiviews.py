@@ -174,3 +174,53 @@ class CompanyWithdrawsAPI(generics.ListCreateAPIView):
 
         return queryset
 
+class CompanySupervisorAPI(generics.ListCreateAPIView):
+    serializer_class = CompanySerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        # Assuming you get the container_id from the request's query parameters
+        supervisor = self.kwargs['pk']
+
+        if supervisor:
+            # If container_id is provided, filter deposits for that specific container
+            queryset = Company.objects.filter(supervisor=supervisor)
+        else:
+            # If no container_id is provided, return all deposits
+            queryset = Company.objects.all()
+
+        return queryset
+
+class SupervisorWithdrawsAPI(generics.ListCreateAPIView):
+    serializer_class = WithdrawSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        # Assuming you get the container_id from the request's query parameters
+        supervisor_id = self.kwargs['pk']
+
+        if supervisor_id:
+            # If container_id is provided, filter deposits for that specific container
+            queryset = Withdraw.objects.filter(supervisor_id=supervisor_id)
+        else:
+            # If no container_id is provided, return all deposits
+            queryset = Withdraw.objects.all()
+
+        return queryset
+
+class SupervisorDepositsAPI(generics.ListCreateAPIView):
+    serializer_class = DepositSerializer
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    def get_queryset(self):
+        # Assuming you get the container_id from the request's query parameters
+        supervisor_id = self.kwargs['pk']
+
+        if supervisor_id:
+            # If container_id is provided, filter deposits for that specific container
+            queryset = Deposit.objects.filter(supervisor_id=supervisor_id)
+        else:
+            # If no container_id is provided, return all deposits
+            queryset = Deposit.objects.all()
+
+        return queryset
