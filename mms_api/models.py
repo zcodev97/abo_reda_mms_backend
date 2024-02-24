@@ -62,7 +62,7 @@ class Deposit(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_by_user')
     record_created_at = models.DateTimeField(auto_now=True)
     deposit_number = models.PositiveIntegerField(blank=True,unique=True)   # New field
-    document = models.FileField(upload_to='withdraw_documents/', blank=True, null=True)
+    document = models.FileField(upload_to='deposits_documents/', blank=True, null=True)
 
     # @classmethod
     # def total_price_in_dinar(cls):

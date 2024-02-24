@@ -41,7 +41,7 @@ class DepositSerializer(serializers.ModelSerializer):
         model = Deposit
         fields = ['invoice_id','deposit_number', 'container', 'company_name', 'price_in_dollar',
                   'price_in_dinar', 'description',
-                  'received_from', 'created_at']
+                  'received_from', 'created_at','document']
 
 
 class DepositCreateSerializer(serializers.ModelSerializer):
@@ -49,7 +49,7 @@ class DepositCreateSerializer(serializers.ModelSerializer):
         model = Deposit
         fields = ['invoice_id', 'container', 'company_name', 'price_in_dollar',
                   'price_in_dinar', 'description',
-                  'received_from', 'created_at', 'created_by']
+                  'received_from', 'created_at', 'created_by','document']
 
 
 class WithdrawSerializer(serializers.ModelSerializer):
@@ -61,7 +61,7 @@ class WithdrawSerializer(serializers.ModelSerializer):
         model = Withdraw
         fields = ['invoice_id', 'withdraw_number', 'container', 'company_name', 'price_in_dollar',
                   'price_in_dinar', 'description',
-                  'out_to', 'withdraw_type', 'created_at']
+                  'out_to', 'withdraw_type', 'created_at','document']
 
 
 class WithdrawCreateSerializer(serializers.ModelSerializer):
@@ -69,4 +69,4 @@ class WithdrawCreateSerializer(serializers.ModelSerializer):
         model = Withdraw
         fields = ['container', 'company_name', 'price_in_dollar',
                   'price_in_dinar', 'description',
-                  'out_to', 'withdraw_type', 'created_at', 'created_by']
+                  'out_to', 'withdraw_type', 'created_at', 'created_by','document']
